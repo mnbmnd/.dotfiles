@@ -11,3 +11,5 @@ fish_add_path ~/.local/bin
 function passman
     python3 ~/projects/password-manager/main.py
 end
+
+alias comp4304="cd ~/COMP\ 4304; and source venv/bin/activate.fish"
