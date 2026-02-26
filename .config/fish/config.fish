@@ -21,4 +21,6 @@ function y
     rm -f -- "$tmp"
 end
 
+# Aliases brahtato
+alias ssh='kitten ssh'
 alias comp4304="cd ~/COMP\ 4304; and source venv/bin/activate.fish"
