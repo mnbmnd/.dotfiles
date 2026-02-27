@@ -2,46 +2,46 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-PanelWindow {
-  anchors {
-    top: true
-    left: true
-    right: true
-  }
+Scope {
+  id: root
+  property string time
 
-  implicitHeight: 30
+  Variants {
+    model: Quickshell.screens
 
-  Text {
-    id: clock
-    anchors.centerIn: parent
+    PanelWindow {
+      required property var modelData
+      screen: modelData
 
-    Process {
-      // give the process object an id so we can talk
-      // about it from the timer
-      id: dateProc
+      anchors {
+        top: true
+        left: true
+        right: true
+      }
 
-      command: ["date"]
-      running: true
+      implicitHeight: 30
 
-      stdout: StdioCollector {
-        onStreamFinished: clock.text = this.text
+      Text {
+        anchors.centerIn: parent
+        text: root.time
       }
     }
+  }
 
-    // use a timer to rerun the process at an interval
-    Timer {
-      // 1000 milliseconds is 1 second
-      interval: 1000
+  Process {
+    id: dateProc
+    command: ["date"]
+    running: true
 
-      // start the timer immediately
-      running: true
-
-      // run the timer again when it ends
-      repeat: true
-
-      // when the timer is triggered, set the running property of the
-      // process to true, which reruns it if stopped.
-      onTriggered: dateProc.running = true
+    stdout: StdioCollector {
+      onStreamFinished: root.time = this.text
     }
+  }
+
+  Timer {
+    interval: 1000
+    running: true
+    repeat: true
+    onTriggered: dateProc.running = true
   }
 }
